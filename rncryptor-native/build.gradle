@@ -1,7 +1,4 @@
-apply plugin: 'com.android.model.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group='com.github.bowhead'
+apply plugin: 'com.android.application'
 
 def version = 9;
 
@@ -28,62 +25,68 @@ ext {
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
     allLicenses = ["Apache-2.0"]
 }
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode version
+        versionName libraryVersion
 
-model {
-    android {
-        compileSdkVersion = 25
-        buildToolsVersion = "25.0.3"
-        defaultConfig {
-            minSdkVersion.apiLevel = 16
-            targetSdkVersion.apiLevel = 25
-            versionCode version
-            versionName libraryVersion
-        }
-        buildTypes {
-            release {
-                minifyEnabled = false
-                proguardFiles.add(file("proguard-rules.pro"))
-            }
-        }
         ndk {
             moduleName = 'rncrypto'
-            cppFlags.addAll(['-frtti', '-fexceptions'])
-            ldLibs.addAll(['android', 'log'])
+            ldLibs "android", "log"
             stl "gnustl_shared"
         }
-        sources {
-            main {
-                jni {
-                    dependencies {
-                        library "cryptopp" linkage "shared"
-                    }
-                    exportedHeaders {
-                        srcDir "src/main/jni"
-                    }
+
+        externalNativeBuild {
+            ndkBuild {
+                cppFlags "-frtti", "-fexceptions"
+            }
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles.add(file("proguard-rules.pro"))
+        }
+    }
+
+
+    sourceSets {
+        main {
+            jni {
+                dependencies {
+                    //library "cryptopp" linkage "shared"
                 }
-                jniLibs {
+                // exportedHeaders {
+                srcDir "src/main/jni"
+                //}
+            }
+            jniLibs {
+                dependencies {
                     dependencies {
-                        dependencies {
-                            library "cryptopp"
-                        }
+                        // libraryName "cryptopp"
                     }
                 }
             }
         }
     }
-
-    repositories {
-        libs(PrebuiltLibraries) {
-            cryptopp {
-                headers.srcDir "src/main/jni/cryptopp"
-                binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = file("src/main/jniLibs/${targetPlatform.getName()}/libcryptopp_shared.so")
-                }
-            }
-        }
-    }
-
 }
+
+/*repositories {
+    libs(PrebuiltLibraries) {
+        cryptopp {
+            headers.srcDir "src/main/jni/cryptopp"
+            binaries.withType(SharedLibraryBinary) {
+                sharedLibraryFile = file("src/main/jniLibs/${targetPlatform.getName()}/libcryptopp_shared.so")
+            }
+        }
+    }
+}*/
+
 
 
 
