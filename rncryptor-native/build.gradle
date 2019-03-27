@@ -6,7 +6,7 @@ ext {
     bintrayRepo = 'maven'
     bintrayName = 'rncryptor-native'
 
-    publishedGroupId = 'com.github.tgio'
+    publishedGroupId = 'com.github.bowhead'
     libraryName = 'RNCryptorNative'
     artifact = 'rncryptor-native'
 
