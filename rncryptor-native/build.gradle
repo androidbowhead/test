@@ -33,7 +33,7 @@ android {
         versionCode version
         versionName libraryVersion
 
-        ndk {
+       /* ndk {
             moduleName = 'rncrypto'
             ldLibs "android", "log"
             stl "gnustl_shared"
@@ -43,7 +43,7 @@ android {
             ndkBuild {
                 cppFlags "-frtti", "-fexceptions"
             }
-        }
+        }*/
     }
 
 
@@ -55,25 +55,31 @@ android {
     }
 
 
-    sourceSets {
+    /*sourceSets {
         main {
             jni {
                 dependencies {
                     //library "cryptopp" linkage "shared"
                 }
+
                 // exportedHeaders {
                 srcDir "src/main/jni"
                 //}
             }
-            jniLibs {
+
+            jniLibs{
+                srcDir "src/main/jniLibs/${targetPlatform.getName()}/libcryptopp_shared.so"
+            }
+
+            *//*jniLibs {
                 dependencies {
                     dependencies {
                         // libraryName "cryptopp"
                     }
                 }
-            }
+            }*//*
         }
-    }
+    }*/
 }
 
 /*repositories {
@@ -84,8 +90,8 @@ android {
                 sharedLibraryFile = file("src/main/jniLibs/${targetPlatform.getName()}/libcryptopp_shared.so")
             }
         }
-    }
-}*/
+    }}*/
+
 
 
 
